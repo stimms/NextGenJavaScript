@@ -6,14 +6,14 @@ main()
 	var edmontonAirport = new Airport();
 
 	Terminal terminalOne = new Terminal(12);
-	Terminal terminalTwo = new Terminal(8);
-	Terminal terminalThree = new Terminal(40);
+	Terminal terminalTwo = new Terminal(8, "Terminial two");
+	Terminal terminalThree = new Terminal(40, "Terminal three");
 
 	edmontonAirport.AddTerminal(terminalOne);
 	edmontonAirport.AddTerminal(terminalTwo);
 	edmontonAirport.AddTerminal(terminalThree);
 	print (edmontonAirport._terminals.length);
-	edmontonAirport.	Render();
+	edmontonAirport.Render();
 }
 
 class Airport{
@@ -28,13 +28,14 @@ class Airport{
 	Render()
 	{
 		var buffer = new StringBuffer();
-		buffer.write("<ul>");
+		buffer.add("<ul>");
 		for(Terminal terminal in _terminals)
 		{
-			buffer..write("<li>${terminal}</li>");
+			buffer.add("<li>${terminal.Name}</li>");
 		}
-		buffer..write("</ul>");
-		query("#airportInformation").innerHtml(buffer.ToString());
+		buffer.add("</ul>");
+		var element = new Element.html(buffer.toString());
+		query("#airportInformation").append(element);
 	}
 }
 
@@ -42,7 +43,9 @@ class Terminal
 {
 	List<Gate> _gates = new List<Gate>();
 
- 	Terminal(int numberOfGates)
+	final String Name;
+
+ 	Terminal(int numberOfGates, [String this.Name: "Terminal 1"])
  	{
  		for(int i = 0; i < numberOfGates; i++)
  		{
